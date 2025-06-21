@@ -1,4 +1,6 @@
 <?php
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+require_once dirname(__DIR__) . '/dic/users.php';
 
 $lastJoinedUsers = (require "dic/users.php")->getLastJoined();
 

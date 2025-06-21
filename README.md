@@ -36,3 +36,18 @@ Sample PHP applications that uses:
 ```
 
 You are all set, point your browser to http://%application.host.name%/
+
+
+## Cómo ejecutarlo - Por César Pinela
+
+```bash
+# 1. Clona el repo
+git clone https://github.com/cpinela87/php-sample-application.git
+cd php-sample-application
+
+# 2. Levanta los contenedores
+docker compose up -d          # requiere Docker + Compose v2
+
+# 3. Abre la app
+http://localhost:8080
+
