@@ -1,0 +1,11 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Si la petición apunta a un archivo o carpeta real, sírvelo tal cual
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Cualquier otra ruta pasa a index.php
+  RewriteRule ^ index.php [L,QSA]
+</IfModule>

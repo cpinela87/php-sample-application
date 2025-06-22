@@ -9,14 +9,17 @@ RUN apt-get update && \
     a2enmod rewrite && \
     rm -rf /var/lib/apt/lists/*
 
-# ── 👇 NUEVO: cambia la DocumentRoot a /var/www/html/web ──
+# cambia DocumentRoot en todos los vhosts
 ENV APACHE_DOCUMENT_ROOT /var/www/html/web
 
 RUN sed -ri "s!/var/www/html!${APACHE_DOCUMENT_ROOT}!g" \
         /etc/apache2/sites-available/*.conf \
         /etc/apache2/apache2.conf \
         /etc/apache2/conf-available/*.conf
-# ── ☝️ ──────────────────────────────────────────────────────
+
+
+RUN sed -ri "s#<Directory ${APACHE_DOCUMENT_ROOT}>#<Directory ${APACHE_DOCUMENT_ROOT}>\n\tAllowOverride All#g" \
+    /etc/apache2/apache2.conf
 
 # ── Ajusta include_path global ─────────────────────────────────────
 RUN echo 'include_path=".:/usr/local/lib/php:/var/www/html"' \
