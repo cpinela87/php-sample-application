@@ -12,13 +12,21 @@ services:
     volumes:
       - dbdata:/var/lib/mysql                 
       - ./sql:/docker-entrypoint-initdb.d:ro  
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-psamplepass", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 5s          # opcional, da tiempo extra al primer arranque 
     networks: [appnet]
 
   app:
     image: ewancess/php-sample-app:1.0.1  #imagen publicada en Docker Hub
-    depends_on: [db]
+    depends_on:
+      db:
+        condition: service_healthy     # ← espera al OK del healthcheck
     ports:
-      - "8080:80"
+      - "8080:80"                   # puerto de la aplicación
     environment:
       DB_HOST: db
       DB_NAME: sample
